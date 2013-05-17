@@ -52,7 +52,7 @@ public class BRZLauncher {
 	public static WinRegistry winRegistry 		= null;
 	private static String userLogin				= null;
 	private static String userPass				= null;
-	private static boolean userLogado			= false;
+	private static boolean userLogado			= false;//
 	public static String versao					= "Alpha1";
 	public static String versaoNome				= "Pre Alpha RC 1";
 	public static String jogoLocal				= null;
