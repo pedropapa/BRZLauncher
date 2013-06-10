@@ -40,7 +40,7 @@ import org.teleal.cling.support.model.PortMapping;
 
 /**
  * TODO
- * teste
+ * lol
  * 		O BRZLauncher n�o ir� funcionar no windows xp porque o comando TASKLIST do prompt de comando n�o � pr� instalado neste sistema operacional
  */
 
