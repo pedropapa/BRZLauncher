@@ -17,15 +17,23 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JWindow;
 
-public class inicializar {
+public class inicializar extends Gaia {
+	// Referência da classe principal
+	private Gaia Gaia = null;
+	
+	// Variáveis
 	Timer 	timer 					= null;
-	public static JWindow janela 	= null;
+	public JWindow janela 			= null;
 	int 	otype 					= 1;
 	
-	public inicializar() {
+	public inicializar(Gaia g) {
+		this.Gaia = g;
+	}
+	
+	public void abrir() {
 		janela = new JWindow();
 		
-		JLabel BRZLogoLarge = new JLabel(new ImageIcon(BRZLauncher.BRZLogoLarge));
+		JLabel BRZLogoLarge = new JLabel(new ImageIcon(this.Gaia.BRZLogoLarge));
 		BRZLogoLarge.setOpaque(true);
 		
 		janela.setBounds(0, 0, 304, 245);
@@ -61,7 +69,7 @@ public class inicializar {
 		}
 		
 		try {
-			URL oracle 			= new URL(BRZLauncher.brzLauncherUrl+"?v");
+			URL oracle 			= new URL(this.Gaia.brzLauncherUrl+"?v");
 	        URLConnection yc 	= oracle.openConnection();
 	        BufferedReader in 	= new BufferedReader(new InputStreamReader(yc.getInputStream()));
 	        
@@ -74,28 +82,29 @@ public class inicializar {
 	        
 	        in.close();
 	        
-	        if(!resposta.equals(BRZLauncher.versao)) {
+	        if(!resposta.equals(this.Gaia.versao)) {
 	        	janela.setAlwaysOnTop(false);
-	        	int res = JOptionPane.showConfirmDialog(BRZLauncher.frame, "Há uma atualização disponível para o BRZLauncher.\n\nSua versão: "+BRZLauncher.versao+"\nNova versão encontrada: "+resposta+"\n\nDeseja baixá-la agora? para continuar a utilizar o launcher a atualização é necessária.", "Nova atualização encontrada", JOptionPane.YES_NO_OPTION);
+	        	int res = JOptionPane.showConfirmDialog(this.Gaia.frame, "Há uma atualização disponível para o BRZLauncher.\n\nSua versão: "+this.Gaia.versao+"\nNova versão encontrada: "+resposta+"\n\nDeseja baixá-la agora? para continuar a utilizar o launcher a atualização é necessária.", "Nova atualização encontrada", JOptionPane.YES_NO_OPTION);
 	        	if(res == JOptionPane.YES_OPTION) {
-	        		if(baixarArquivo(decodedPath, BRZLauncher.brzLauncherUrl+"?d")) {
+	        		if(baixarArquivo(decodedPath, this.Gaia.brzLauncherUrl+"?d")) {
 	        			Runtime rt = Runtime.getRuntime() ;
 	        			rt.exec(decodedPath);
 	        			System.exit(0);
 	        		} else {
-	        			JOptionPane.showMessageDialog(BRZLauncher.frame, "Não foi possível baixar a nova versão do BRZLauncher\n\nTente novamente mais tarde.", "Erro ao baixar uma nova versão", JOptionPane.ERROR_MESSAGE);
+	        			JOptionPane.showMessageDialog(this.Gaia.frame, "Não foi possível baixar a nova versão do BRZLauncher\n\nTente novamente mais tarde.", "Erro ao baixar uma nova versão", JOptionPane.ERROR_MESSAGE);
 	        		}
 	        	} else {
 	        		System.exit(0);
 	        	}
 	        }
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(BRZLauncher.frame, "Não foi possível detectar se há uma nova versão do software.\n\nPara verificar novamente basta fechar e abrir o programa.", "Erro ao verificar a versão do software!", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this.Gaia.frame, "Não foi possível detectar se há uma nova versão do software.\n\nPara verificar novamente basta fechar e abrir o programa.", "Erro ao verificar a versão do software!", JOptionPane.ERROR_MESSAGE);
 		}
 		
 		janela.setVisible(false);
       	janela.dispose();
-      	new loginForm();
+      	
+      	this.Gaia.loginForm.abrir();
 	}
 	
 	public boolean baixarArquivo(String filename, String urlString) throws IOException {

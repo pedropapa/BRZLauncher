@@ -19,35 +19,42 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import net.miginfocom.swing.MigLayout;
 
-
-public class loginForm {
-	public static JButton 			inputEnviar 		= null;
-	public static JTextField 		inputLogin 			= null;
-	private static JPasswordField 	inputSenha 			= null;
-	private boolean verificarDoRegistro					= false;
-	public static String login							= null;
-	public static String senha							= null;
-	public static boolean enviarClicado					= false;
-	public static JLabel tempLabel				= null;
+public class loginForm extends Gaia {
+	// Referência da classe principal
+	private Gaia Gaia = null;
 	
-	public loginForm() {
-		BRZLauncher.frame = new JFrame("BRZLauncher ("+BRZLauncher.versaoNome+") - Login");
-		BRZLauncher.frame.addWindowListener(new WindowAdapter(){
+	// Variáveis
+	public JButton 			inputEnviar 		= null;
+	public JTextField 		inputLogin 			= null;
+	private JPasswordField 	inputSenha 			= null;
+	private boolean verificarDoRegistro					= false;
+	public String login							= null;
+	public String senha							= null;
+	public boolean enviarClicado					= false;
+	public JLabel tempLabel				= null;
+	
+	public loginForm(Gaia g) {
+		this.Gaia = g;
+	}
+	
+	public void abrir() {
+		this.Gaia.frame = new JFrame("BRZLauncher ("+this.Gaia.versaoNome+") - Login");
+		this.Gaia.frame.addWindowListener(new WindowAdapter(){
 			  public void windowClosing(WindowEvent we){
-				  BRZLauncher.deslogar();
+				  Gaia.deslogar();
 			  }
 		});
 
-		BRZLauncher.frame.setSize(600, 350);
-		BRZLauncher.frame.setMaximumSize(new Dimension(600, 350));
-		BRZLauncher.frame.setLocationRelativeTo(null);
-		BRZLauncher.frame.setResizable(false);
-		BRZLauncher.frame.setUndecorated(true);
-		BRZLauncher.frame.setBackground(new Color(0,0,0,0));
+		this.Gaia.frame.setSize(600, 350);
+		this.Gaia.frame.setMaximumSize(new Dimension(600, 350));
+		this.Gaia.frame.setLocationRelativeTo(null);
+		this.Gaia.frame.setResizable(false);
+		this.Gaia.frame.setUndecorated(true);
+		this.Gaia.frame.setBackground(new Color(0,0,0,0));
 		
-		BRZLauncher.frame.addWindowListener(new WindowAdapter(){
+		this.Gaia.frame.addWindowListener(new WindowAdapter(){
 			  public void windowClosing(WindowEvent we){
-				  BRZLauncher.deslogar();
+				  Gaia.deslogar();
 			  }
 		});
     
@@ -66,68 +73,68 @@ public class loginForm {
     	menuBarLabel2.add(menuBarLabelItem2);
     	
     	// Layout
-    	janelaJogo.layout = new JPanel(new MigLayout("width 600!,height 350!,insets 0 0 0 0,novisualpadding,nogrid")) {
+    	this.Gaia.janelaJogo.layout = new JPanel(new MigLayout("width 600!,height 350!,insets 0 0 0 0,novisualpadding,nogrid")) {
 			private static final long serialVersionUID = 1L;
 			protected void paintComponent(Graphics g) {
     		    super.paintComponent(g);
-    		    g.drawImage(BRZLauncher.bgimage, 1, 1, null);
+    		    g.drawImage(Gaia.bgimage, 1, 1, null);
     		  }
     	};
     	
-    	MediaTracker mt = new MediaTracker(janelaJogo.layout);
-	    mt.addImage(BRZLauncher.bgimage, 0);
+    	MediaTracker mt = new MediaTracker(this.Gaia.janelaJogo.layout);
+	    mt.addImage(this.Gaia.bgimage, 0);
 	    try {
 	    	mt.waitForAll();
 	    } catch (InterruptedException e) {
 	    	e.printStackTrace();
 	    }
     	
-    	janelaJogo.layout.setBackground(new Color (0, 0, 0, 0));
+    	this.Gaia.janelaJogo.layout.setBackground(new Color (0, 0, 0, 0));
     	/* **************** */
     	
     	// Cima
-    	JLabel imagemFechar = new JLabel(new ImageIcon(BRZLauncher.imagemFechar));
+    	JLabel imagemFechar = new JLabel(new ImageIcon(this.Gaia.imagemFechar));
     	imagemFechar.setBorder(new EmptyBorder(5, 0, 5, 5));
     	imagemFechar.addMouseListener(new MouseAdapter()  {  
     	    public void mouseClicked(MouseEvent e) {
     	    	int key = e.getModifiers();
     	    	
     	        if(key == MouseEvent.BUTTON1_MASK) {  
-    	            BRZLauncher.deslogar();
+    	        	Gaia.deslogar();
     	        } 
     	    }
     	});
     	
-    	JLabel imagemMinimizar = new JLabel(new ImageIcon(BRZLauncher.imagemMinimizar));
+    	JLabel imagemMinimizar = new JLabel(new ImageIcon(this.Gaia.imagemMinimizar));
     	imagemMinimizar.setBorder(new EmptyBorder(3, 2, 5, 5));
     	imagemMinimizar.addMouseListener(new MouseAdapter()  {  
     	    public void mouseClicked(MouseEvent e) {
     	    	int key = e.getModifiers();
     	    	
     	        if(key == MouseEvent.BUTTON1_MASK) {  
-    	            BRZLauncher.frame.setState(Frame.ICONIFIED);
+    	            Gaia.frame.setState(Frame.ICONIFIED);
     	        } 
     	    }
     	});
     	
-    	JLabel BRZLogo2 = new JLabel(new ImageIcon(BRZLauncher.BRZLogo2));
+    	JLabel BRZLogo2 = new JLabel(new ImageIcon(this.Gaia.BRZLogo2));
     	BRZLogo2.setBorder(new EmptyBorder(15, 15, 15, 15));
     	
-    	janelaJogo.cima = new JPanel(new MigLayout("top, width 600!, height 52!, insets 0 0 0 0"));
-    	janelaJogo.cima.setOpaque(false);
+    	this.Gaia.janelaJogo.cima = new JPanel(new MigLayout("top, width 600!, height 52!, insets 0 0 0 0"));
+    	this.Gaia.janelaJogo.cima.setOpaque(false);
     	
-    	janelaJogo.cima.add(BRZLogo2, "left, top");
-    	janelaJogo.cima.add(imagemMinimizar, "pushx, alignx right, aligny top");
-    	janelaJogo.cima.add(imagemFechar, "alignx right, aligny top");
+    	this.Gaia.janelaJogo.cima.add(BRZLogo2, "left, top");
+    	this.Gaia.janelaJogo.cima.add(imagemMinimizar, "pushx, alignx right, aligny top");
+    	this.Gaia.janelaJogo.cima.add(imagemFechar, "alignx right, aligny top");
     	
-    	janelaJogo.cima.addMouseListener(new MouseAdapter()  {  
+    	this.Gaia.janelaJogo.cima.addMouseListener(new MouseAdapter()  {  
     	    public void mousePressed(MouseEvent e) {
     	    	int key = e.getModifiers();
     	    	
     	        if(key == MouseEvent.BUTTON1_MASK) {  
-    	        	janelaJogo.cimaClicado 			= true;
-    	        	janelaJogo.mouseDownScreenCoords 	= e.getLocationOnScreen();
-    	        	janelaJogo.mouseDownCompCoords 	= e.getPoint();
+    	        	Gaia.janelaJogo.cimaClicado 			= true;
+    	        	Gaia.janelaJogo.mouseDownScreenCoords 	= e.getLocationOnScreen();
+    	        	Gaia.janelaJogo.mouseDownCompCoords 	= e.getPoint();
     	        } 
     	    }
     	    
@@ -135,18 +142,18 @@ public class loginForm {
     	    	int key = e.getModifiers();
     	    	
     	        if(key == MouseEvent.BUTTON1_MASK) {  
-    	        	janelaJogo.cimaClicado 			= false;
-    	        	janelaJogo.mouseDownScreenCoords 	= null;
-    	        	janelaJogo.mouseDownCompCoords 	= null;
+    	        	Gaia.janelaJogo.cimaClicado 			= false;
+    	        	Gaia.janelaJogo.mouseDownScreenCoords 	= null;
+    	        	Gaia.janelaJogo.mouseDownCompCoords 	= null;
     	        } 
     	    }
     	});
     	
-    	janelaJogo.cima.addMouseMotionListener(new MouseMotionListener() {
+    	this.Gaia.janelaJogo.cima.addMouseMotionListener(new MouseMotionListener() {
     		public void mouseDragged(MouseEvent e) {
-    			if(janelaJogo.cimaClicado) {
+    			if(Gaia.janelaJogo.cimaClicado) {
     	    		Point currCoords = e.getLocationOnScreen();
-    	    		BRZLauncher.frame.setLocation(janelaJogo.mouseDownScreenCoords.x + (currCoords.x - janelaJogo.mouseDownScreenCoords.x) - janelaJogo.mouseDownCompCoords.x, janelaJogo.mouseDownScreenCoords.y + (currCoords.y - janelaJogo.mouseDownScreenCoords.y) - janelaJogo.mouseDownCompCoords.y);
+    	    		Gaia.frame.setLocation(Gaia.janelaJogo.mouseDownScreenCoords.x + (currCoords.x - Gaia.janelaJogo.mouseDownScreenCoords.x) - Gaia.janelaJogo.mouseDownCompCoords.x, Gaia.janelaJogo.mouseDownScreenCoords.y + (currCoords.y - Gaia.janelaJogo.mouseDownScreenCoords.y) - Gaia.janelaJogo.mouseDownCompCoords.y);
     	    	}
     		}
 
@@ -155,12 +162,12 @@ public class loginForm {
 			}
     	});
     	
-    	janelaJogo.layout.add(janelaJogo.cima, "top, wrap");
+    	this.Gaia.janelaJogo.layout.add(Gaia.janelaJogo.cima, "top, wrap");
     	/* ******************* */
 
-    	BRZLauncher.formularioLogin = new JPanel(new MigLayout("alignx center, aligny top,width 578!"));
-    	BRZLauncher.formularioLogin.setOpaque(false);
-    	BRZLauncher.formularioLogin.setBorder(new EmptyBorder(15, 22, 15, 15));
+    	this.Gaia.formularioLogin = new JPanel(new MigLayout("alignx center, aligny top,width 578!"));
+    	this.Gaia.formularioLogin.setOpaque(false);
+    	this.Gaia.formularioLogin.setBorder(new EmptyBorder(15, 22, 15, 15));
     	
     	JLabel		labelLogin	= new JLabel("<html><span style='color: white'>Login:</span></html> ");
     	JLabel		labelSenha	= new JLabel("<html><span style='color: white'>Senha:</span></html> ");
@@ -171,7 +178,7 @@ public class loginForm {
     	inputSenha.setBorder(new EmptyBorder(5, 5, 5, 5));
     	inputEnviar = new JButton("Login");
     	
-    	BRZLauncher.formularioLogin.add(new JLabel("<html><span style='color: white;'>Insira o seu login e senha do RPG/Minigames/Competitivo abaixo:</span></html>"), "alignx center,wrap");
+    	this.Gaia.formularioLogin.add(new JLabel("<html><span style='color: white;'>Insira o seu login e senha do RPG/Minigames/Competitivo abaixo:</span></html>"), "alignx center,wrap");
     	
     	JPanel conteudo = new JPanel(new MigLayout("alignx center, width 415!"));
     	conteudo.setOpaque(false);
@@ -181,7 +188,7 @@ public class loginForm {
     	conteudo.add(labelSenha);
     	conteudo.add(inputSenha, "wrap");
     	
-    	BRZLauncher.formularioLogin.add(conteudo, "wrap");
+    	this.Gaia.formularioLogin.add(conteudo, "wrap");
     	
     	JPanel links = new JPanel(new MigLayout("width 450!, center"));
     	links.setOpaque(false);
@@ -191,11 +198,11 @@ public class loginForm {
     	esqueceuSenhaLink.addMouseListener(new MouseAdapter() {
     		public void mouseClicked(MouseEvent e) {
   			  	if (e.getButton() == MouseEvent.BUTTON1) {
-  			  		if(!BRZLauncher.estaEmFila) {
+  			  		if(!Gaia.estaEmFila) {
   			  			try {
 							Desktop.getDesktop().browse(new URI("http://samp.brazucas-server.com/recuperar"));
 						} catch (IOException | URISyntaxException e1) {
-							JOptionPane.showMessageDialog(BRZLauncher.frame, e1.getStackTrace());
+							JOptionPane.showMessageDialog(Gaia.frame, e1.getStackTrace());
 						}
   			  		}
   			  	}
@@ -206,11 +213,11 @@ public class loginForm {
     	registrarLink.addMouseListener(new MouseAdapter() {
     		public void mouseClicked(MouseEvent e) {
   			  	if (e.getButton() == MouseEvent.BUTTON1) {
-  			  		if(!BRZLauncher.estaEmFila) {
+  			  		if(!Gaia.estaEmFila) {
   			  			try {
 							Desktop.getDesktop().browse(new URI("http://samp.brazucas-server.com/registro"));
 						} catch (IOException | URISyntaxException e1) {
-							JOptionPane.showMessageDialog(BRZLauncher.frame, e1.getStackTrace());
+							JOptionPane.showMessageDialog(Gaia.frame, e1.getStackTrace());
 						}
   			  		}
   			  	}
@@ -220,8 +227,8 @@ public class loginForm {
     	links.add(esqueceuSenhaLink);
     	links.add(registrarLink);
     	
-    	BRZLauncher.formularioLogin.add(links, "wrap");
-    	BRZLauncher.formularioLogin.add(inputEnviar, "center, wrap");
+    	this.Gaia.formularioLogin.add(links, "wrap");
+    	this.Gaia.formularioLogin.add(inputEnviar, "center, wrap");
     	
     	// Baixo
     	JPanel baixo = new JPanel(new MigLayout("left"));
@@ -231,13 +238,13 @@ public class loginForm {
     	/* ************ */
     	
     	//BRZLauncher.formularioLogin.add(baixo);
-    	janelaJogo.layout.add(BRZLauncher.formularioLogin);
+    	this.Gaia.janelaJogo.layout.add(this.Gaia.formularioLogin);
     	
-    	BRZLauncher.frame.add(janelaJogo.layout);
-    	BRZLauncher.frame.pack();
-    	BRZLauncher.frame.setVisible(true);
+    	this.Gaia.frame.add(this.Gaia.janelaJogo.layout);
+    	this.Gaia.frame.pack();
+    	this.Gaia.frame.setVisible(true);
     	
-    	final BRZLauncher.buscarRegistro registro = new BRZLauncher.buscarRegistro();
+    	final Gaia.buscarRegistro registro = new Gaia.buscarRegistro();
     	
     	inputEnviar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -245,7 +252,7 @@ public class loginForm {
             		enviarClicado = true;
             		
             		try {
-						BRZLauncher.apiRequest = new apiRequest();
+            			Gaia.apiRequest = new apiRequest(Gaia);
 					} catch (HeadlessException | IOException e2) {
 
 					}
@@ -269,24 +276,24 @@ public class loginForm {
 	            	}
 	
 	            	if(inputSenha.getPassword().length == 0 || login.length() == 0) {
-	            		JOptionPane.showMessageDialog(BRZLauncher.frame, "Preencha todos os campos!");
+	            		JOptionPane.showMessageDialog(Gaia.frame, "Preencha todos os campos!");
 	            	} else {
 	            		inputEnviar.setText("Cancelar");
 	            		
 	            		tempLabel = new JLabel("<html><span style='color: white; font-size: 8px'>Fazendo login...</span></html>");
-	            		BRZLauncher.formularioLogin.add(tempLabel, "center, wrap");
-	            		BRZLauncher.formularioLogin.updateUI();
+	            		Gaia.formularioLogin.add(tempLabel, "center, wrap");
+	            		Gaia.formularioLogin.updateUI();
 	            		
-	            		loginForm.login = login;
-	            		loginForm.senha	= senhaMd5;
+	            		Gaia.loginForm.login = login;
+	            		Gaia.loginForm.senha	= senhaMd5;
 	            		
 	            		inputLogin.setEditable(false);
 	            		inputSenha.setEditable(false);
 	
-	            		BRZLauncher.apiRequest.cmd("a=login&u="+login+"&s="+senhaMd5);
+	            		Gaia.apiRequest.cmd("a=login&u="+login+"&s="+senhaMd5);
 	            	}
             	} else {
-            		BRZLauncher.removerRegistros();
+            		Gaia.removerRegistros();
             		
             		String path = BRZLauncher.class.getProtectionDomain().getCodeSource().getLocation().getPath();
             		String decodedPath;

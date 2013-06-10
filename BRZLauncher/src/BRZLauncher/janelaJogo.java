@@ -18,35 +18,44 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class janelaJogo {
-	public static JPanel layout 						= null;
-	public static JPanel cima							= null;
-	public static JLabel temp							= null;
-	public static JLabel jogadoresOnline 				= null;
-	public static JLabel servidoresDisponiveis 			= null;
-	public static JLabel servidoresTotais 				= null;
-	public static JLabel tempoAproximado	 			= null;
-	public static JLabel plPartidasDisputadas			= null;
-	public static JLabel plVitorias						= null;
-	public static JLabel plVezesPunido					= null;
-	public static JLabel plMatou						= null;
-	public static JLabel plMorreu						= null;
-	public static JLabel plRanking						= null;
-	public static JButton jogar							= null;
-	public static JLabel filaStatus						= new JLabel("<html><span style='color: white; font-size: 8px'>enviando requisição...</span></html>");
-	public static JPanel logados						= null;
-	public static JPanel mensagens						= null;
-	public static Point mouseDownScreenCoords 			= null;
-	public static Point mouseDownCompCoords 			= null;
-	public static HashMap<String, JLabel> logadosLabels = new HashMap<String, JLabel>();
+public class janelaJogo extends Gaia {
+	// Referência da classe principal
+	private Gaia Gaia = null;
 	
-	public static boolean cimaClicado			= false;
+	
+	// Variáveis
+	public JPanel layout 						= null;
+	public JPanel cima							= null;
+	public JLabel temp							= null;
+	public JLabel jogadoresOnline 				= null;
+	public JLabel servidoresDisponiveis 		= null;
+	public JLabel servidoresTotais 				= null;
+	public JLabel tempoAproximado	 			= null;
+	public JLabel plPartidasDisputadas			= null;
+	public JLabel plVitorias					= null;
+	public JLabel plVezesPunido					= null;
+	public JLabel plMatou						= null;
+	public JLabel plMorreu						= null;
+	public JLabel plRanking						= null;
+	public JButton jogar						= null;
+	public JLabel filaStatus					= new JLabel("<html><span style='color: white; font-size: 8px'>enviando requisição...</span></html>");
+	public JPanel logados						= null;
+	public JPanel mensagens						= null;
+	public Point mouseDownScreenCoords 			= null;
+	public Point mouseDownCompCoords 			= null;
+	public HashMap<String, JLabel> logadosLabels = new HashMap<String, JLabel>();
+	
+	public boolean cimaClicado			= false;
 
-	public janelaJogo() throws IOException {
-		if(BRZLauncher.estaLogado()) {
+	public janelaJogo(Gaia g) {
+		this.Gaia = g;
+	}
+	
+	public void abrir() throws IOException {
+		if(this.Gaia.estaLogado()) {
 			verificarJogoLocal();
 			
-			layout.remove(BRZLauncher.formularioLogin);
+			layout.remove(this.Gaia.formularioLogin);
 
 			// Cima
 	    	JMenuBar menuBar = new JMenuBar();
@@ -63,8 +72,8 @@ public class janelaJogo {
 	    	menuBarLabelItem1.addActionListener(new ActionListener() {
 	    	    @Override
 	    	    public void actionPerformed(ActionEvent arg0) {
-	    	    	BRZLauncher.removerRegistros();
-	    	    	BRZLauncher.deslogar();
+	    	    	Gaia.removerRegistros();
+	    	    	Gaia.deslogar();
 	    	    }
 	    	});
 
@@ -77,12 +86,12 @@ public class janelaJogo {
 	    	temp.setBorder(new EmptyBorder(15, 22, 15, 15));
 	    	layout.add(temp, "left");
 	    	
-	    	BRZLauncher.apiRequest.cmd("a=inicializar");
+	    	this.Gaia.apiRequest.cmd("a=inicializar");
 	    	/* **************************** */
 	    	
-	    	BRZLauncher.frame.add(layout);
-	    	BRZLauncher.frame.pack();
-	    	BRZLauncher.frame.setVisible(true);
+	    	this.Gaia.frame.add(layout);
+	    	this.Gaia.frame.pack();
+	    	this.Gaia.frame.setVisible(true);
 		}
 	}
 	
@@ -98,26 +107,26 @@ public class janelaJogo {
 		}
 
 		if(local == null) {
-			JOptionPane.showMessageDialog(BRZLauncher.frame, "O GTA não foi encontrado em seu computador!\n\nPor favor selecione manualmente o local do executável do jogo.", "Jogo não encontrado", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this.Gaia.frame, "O GTA não foi encontrado em seu computador!\n\nPor favor selecione manualmente o local do executável do jogo.", "Jogo não encontrado", JOptionPane.ERROR_MESSAGE);
 
-			BRZLauncher.fecharJanela();
+			this.Gaia.fecharJanela();
 			
 			try {
 				selecionarJogoLocal();
 			} catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
-				JOptionPane.showMessageDialog(BRZLauncher.frame, "Erro encontrado!\n\n"+e.getStackTrace()+"\n\nTente fechar e abrir o programa novamente.", "Caminho incorreto.", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this.Gaia.frame, "Erro encontrado!\n\n"+e.getStackTrace()+"\n\nTente fechar e abrir o programa novamente.", "Caminho incorreto.", JOptionPane.ERROR_MESSAGE);
 			}
 		} else {
-			BRZLauncher.GTAPath = local;
+			this.Gaia.GTAPath = local;
 			
 			diretorio 	= local.replace("gta_sa.exe", "");
         	local 		= diretorio + "samp.exe";
         	
         	File arquivo = new File(local);
         	if(arquivo.exists()) {
-        		BRZLauncher.SAMPPath = local;
+        		this.Gaia.SAMPPath = local;
         	} else {
-        		JOptionPane.showMessageDialog(BRZLauncher.frame, "Não foi encontrado uma instalação do SA-MP em seu computador.\n\nEle deve ser instalado no mesmo diretório do jogo.", "samp.exe não encontrado", JOptionPane.ERROR_MESSAGE);
+        		JOptionPane.showMessageDialog(this.Gaia.frame, "Não foi encontrado uma instalação do SA-MP em seu computador.\n\nEle deve ser instalado no mesmo diretório do jogo.", "samp.exe não encontrado", JOptionPane.ERROR_MESSAGE);
         		System.exit(0);
         	}
 		}
@@ -136,27 +145,27 @@ public class janelaJogo {
 			diretorio 	= null;
 	        
 	        if(!fc.getSelectedFile().getName().equalsIgnoreCase("gta_sa.exe")) {
-	        	JOptionPane.showMessageDialog(BRZLauncher.frame, "Este não é um caminho válido para o executável do jogo.", "Caminho incorreto.", JOptionPane.ERROR_MESSAGE);
+	        	JOptionPane.showMessageDialog(this.Gaia.frame, "Este não é um caminho válido para o executável do jogo.", "Caminho incorreto.", JOptionPane.ERROR_MESSAGE);
 	        	selecionarJogoLocal();
 	        } else {
-	        	BRZLauncher.GTAPath = local;
+	        	this.Gaia.GTAPath = local;
 	        	
 	        	WinRegistry.createKey(WinRegistry.HKEY_CURRENT_USER, "SOFTWARE\\SAMP");
-	        	WinRegistry.writeStringValue(WinRegistry.HKEY_CURRENT_USER, "SOFTWARE\\SAMP", "gta_sa_exe", BRZLauncher.GTAPath);
+	        	WinRegistry.writeStringValue(WinRegistry.HKEY_CURRENT_USER, "SOFTWARE\\SAMP", "gta_sa_exe", this.Gaia.GTAPath);
 	        	
 	        	diretorio 	= local.replace("gta_sa.exe", "");
 	        	local 		= diretorio + "samp.exe";
 	        	
 	        	File arquivo = new File(local);
 	        	if(arquivo.exists()) {
-	        		BRZLauncher.SAMPPath = local;
-	        		new janelaJogo();
+	        		this.Gaia.SAMPPath = local;
+	        		new janelaJogo(this.Gaia);
 	        	} else {
-	        		JOptionPane.showMessageDialog(BRZLauncher.frame, "Não foi encontrado uma instalação do SA-MP em seu computador.\n\nEle deve ser instalado no mesmo diretório do jogo.", "samp.exe não encontrado", JOptionPane.ERROR_MESSAGE);
+	        		JOptionPane.showMessageDialog(this.Gaia.frame, "Não foi encontrado uma instalação do SA-MP em seu computador.\n\nEle deve ser instalado no mesmo diretório do jogo.", "samp.exe não encontrado", JOptionPane.ERROR_MESSAGE);
 	        	}
 	        }
 	    } else if(returnVal == JFileChooser.CANCEL_OPTION) {
-	    	BRZLauncher.deslogar();
+	    	this.Gaia.deslogar();
 	    }
 	}
 }

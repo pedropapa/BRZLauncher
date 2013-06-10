@@ -18,16 +18,24 @@ import javax.swing.border.EmptyBorder;
 
 import net.miginfocom.swing.MigLayout;
 
-public class janelaPronto {
-	public static JFrame frame 					= null;
-	public static JPanel layout					= null;
-	public static Point mouseDownScreenCoords 	= null;
-	public static Point mouseDownCompCoords 	= null;
-	public static boolean cimaClicado			= false;
-	public static JButton botaoPronto			= null;
+public class janelaPronto extends Gaia {
+	// Referência da classe principal
+	private Gaia Gaia = null;
 	
-	public janelaPronto() {
-		BRZLauncher.frame.setVisible(false);
+	// Variáveis	
+	public JFrame frame 					= null;
+	public JPanel layout					= null;
+	public Point mouseDownScreenCoords 	= null;
+	public Point mouseDownCompCoords 	= null;
+	public boolean cimaClicado			= false;
+	public JButton botaoPronto			= null;
+	
+	public janelaPronto(Gaia g) {
+		this.Gaia = g;
+	}
+	
+	public void abrir() {
+		this.Gaia.frame.setVisible(false);
 		
 		frame = new JFrame("BRZLauncher - Formação de Partida");
 
@@ -48,15 +56,18 @@ public class janelaPronto {
 		
 		// Layout
     	layout = new JPanel(new MigLayout("width 400!,height 550!,insets 0 00 0 0,novisualpadding,nogrid")) {
+			/**
+			 * 
+			 */
 			private static final long serialVersionUID = 1L;
 			protected void paintComponent(Graphics g) {
     		    super.paintComponent(g);
-    		    g.drawImage(BRZLauncher.bgimage, 1, 1, null);
+    		    g.drawImage(Gaia.bgimage, 1, 1, null);
     		  }
     	};
     	
     	MediaTracker mt = new MediaTracker(layout);
-	    mt.addImage(BRZLauncher.bgimage, 0);
+	    mt.addImage(this.Gaia.bgimage, 0);
 	    try {
 	    	mt.waitForAll();
 	    } catch (InterruptedException e) {
@@ -67,7 +78,7 @@ public class janelaPronto {
     	/* **************** */
     	
     	// Cima
-	    JLabel imagemFechar = new JLabel(new ImageIcon(BRZLauncher.imagemFechar));
+	    JLabel imagemFechar = new JLabel(new ImageIcon(this.Gaia.imagemFechar));
     	imagemFechar.setBorder(new EmptyBorder(5, 0, 5, 5));
     	imagemFechar.addMouseListener(new MouseAdapter()  {
     	    public void mouseClicked(MouseEvent e) {
@@ -79,7 +90,7 @@ public class janelaPronto {
     	    }
     	});
     	
-    	JLabel imagemMinimizar = new JLabel(new ImageIcon(BRZLauncher.imagemMinimizar));
+    	JLabel imagemMinimizar = new JLabel(new ImageIcon(this.Gaia.imagemMinimizar));
     	imagemMinimizar.setBorder(new EmptyBorder(3, 2, 5, 5));
     	imagemMinimizar.addMouseListener(new MouseAdapter()  {  
     	    public void mouseClicked(MouseEvent e) {
@@ -91,7 +102,7 @@ public class janelaPronto {
     	    }
     	});
     	
-	    JLabel BRZLogo2 = new JLabel(new ImageIcon(BRZLauncher.BRZLogo2));
+	    JLabel BRZLogo2 = new JLabel(new ImageIcon(this.Gaia.BRZLogo2));
     	BRZLogo2.setBorder(new EmptyBorder(15, 15, 15, 15));
     	
     	JPanel janelaProntoCima = new JPanel(new MigLayout("top, width 400!, height 52!, insets 0 0 0 0"));
@@ -144,17 +155,17 @@ public class janelaPronto {
     	frame.setVisible(true);
 	}
 	
-	public static void sair() {
+	public void sair() {
 		if(frame.isVisible()) {
-			BRZLauncher.frame.setVisible(true);
-			BRZLauncher.estaEmFila = false;
-			BRZLauncher.estaPronto = false;
+			this.Gaia.frame.setVisible(true);
+			this.Gaia.estaEmFila = false;
+			this.Gaia.estaPronto = false;
 			
 			janelaJogo.jogar.setText("<html><span style='text-align: center; font-size: 12px;'>Jogar!</span></html>");
 			janelaJogo.jogar.setEnabled(true);
 			janelaJogo.filaStatus.setVisible(false);
 			janelaJogo.filaStatus.setText("<html><span style='color: white; font-size: 8px'>enviando requisição...</span></html>");
-			BRZLauncher.apiRequest.cmd("a=sairPartida");
+			this.Gaia.apiRequest.cmd("a=sairPartida");
 	    	frame.dispose();
 		}
 	}
