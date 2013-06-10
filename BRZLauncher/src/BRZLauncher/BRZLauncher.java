@@ -40,7 +40,8 @@ import org.teleal.cling.support.model.PortMapping;
 
 /**
  * TODO
- * 		O BRZLauncher não irá funcionar no windows xp porque o comando TASKLIST do prompt de comando não é pré instalado neste sistema operacional
+ * teste
+ * 		O BRZLauncher nï¿½o irï¿½ funcionar no windows xp porque o comando TASKLIST do prompt de comando nï¿½o ï¿½ prï¿½ instalado neste sistema operacional
  */
 
 public class BRZLauncher {
@@ -103,7 +104,7 @@ public class BRZLauncher {
     	
     	/**
     	 * TODO
-    	 * Extrai o arquivo zipado do servidor para uma pasta temporária.
+    	 * Extrai o arquivo zipado do servidor para uma pasta temporï¿½ria.
     	 */
     	extrairServidor();
     	
@@ -391,10 +392,10 @@ public class BRZLauncher {
 	    	}
 
 	    	zipFile.close();
-	    	System.out.println("Servidor extraído.");
+	    	System.out.println("Servidor extraï¿½do.");
 	    	System.out.println("Abrindo porta 7777 no roteador...");
 	    	//portforward();
-	    	//JOptionPane.showMessageDialog(BRZLauncher.frame, "Servidor extraído.");
+	    	//JOptionPane.showMessageDialog(BRZLauncher.frame, "Servidor extraï¿½do.");
     	} catch (IOException e) {
     		JOptionPane.showMessageDialog(BRZLauncher.frame, e.getStackTrace());
     	}
@@ -404,11 +405,11 @@ public class BRZLauncher {
     
     /**
      * TODO
-     * Função chamada quando o servidor é fechado.
-     * Caso o servidor tenha sido fechado no meio de uma partida, o cliente deve ser punido com 15 minutos sem  poder jogar (verificação esta feita pelo servidor mestre).
+     * Funï¿½ï¿½o chamada quando o servidor ï¿½ fechado.
+     * Caso o servidor tenha sido fechado no meio de uma partida, o cliente deve ser punido com 15 minutos sem  poder jogar (verificaï¿½ï¿½o esta feita pelo servidor mestre).
      */
     public static void quandoServidorFechar() {
-    	JOptionPane.showMessageDialog(BRZLauncher.frame, "O servidor foi fechado de forma inesperada.\n\nFechar o servidor durante uma partida resulta em punição. Caso tenha ocorrido algum crash, copie e envie o código retornado via fórum para que nossos desenvolvedores possam analisá-lo.");
+    	JOptionPane.showMessageDialog(BRZLauncher.frame, "O servidor foi fechado de forma inesperada.\n\nFechar o servidor durante uma partida resulta em puniï¿½ï¿½o. Caso tenha ocorrido algum crash, copie e envie o cï¿½digo retornado via fï¿½rum para que nossos desenvolvedores possam analisï¿½-lo.");
     }
     
     public static HashMap<String, arquivoVars> obterServidorVars(String arquivo) {
@@ -455,7 +456,7 @@ public class BRZLauncher {
     			
     			while(true) {
     				Socket clientSocket = serverSock.accept();
-    				System.out.println("[SA-MP Server] Nova conexão vinda de: "+clientSocket.getInetAddress().getHostAddress());
+    				System.out.println("[SA-MP Server] Nova conexï¿½o vinda de: "+clientSocket.getInetAddress().getHostAddress());
     			}
     		} catch (Exception ex) {
     			if(serverSock != null) {
