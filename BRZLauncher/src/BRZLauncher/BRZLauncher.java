@@ -355,7 +355,6 @@ public class BRZLauncher {
     	return result;   
     }
     
-    @SuppressWarnings("resource")
 	public static boolean extrairServidor() {
     	try {
 	    	System.out.println("Extraindo servidor....");
