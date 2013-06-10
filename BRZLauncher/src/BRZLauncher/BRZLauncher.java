@@ -389,7 +389,7 @@ public class BRZLauncher {
 	    			fos.close();
 	    		}
 	    	}
-	    	//s
+	    	//sfhg
 	    	zipFile.close();
 	    	System.out.println("Servidor extraído.");
 	    	System.out.println("Abrindo porta 7777 no roteador...");
