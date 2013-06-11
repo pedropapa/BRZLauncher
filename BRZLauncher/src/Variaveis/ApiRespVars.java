@@ -1,8 +1,8 @@
-package BRZLauncher;
+package Variaveis;
 
 import java.util.List;
 
-public class apiResp {
+public class ApiRespVars {
 	public int 		status			= 0;
 	public String 	target			= null;
 	public String 	html 			= null;

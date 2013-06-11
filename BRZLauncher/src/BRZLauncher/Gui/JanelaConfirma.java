@@ -1,4 +1,4 @@
-package BRZLauncher;
+package BRZLauncher.Gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -9,6 +9,7 @@ import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,8 +18,14 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import net.miginfocom.swing.MigLayout;
+import BRZLauncher.Gaia;
 
-public class janelaPronto extends Gaia {
+public class JanelaConfirma extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	// Referência da classe principal
 	private Gaia Gaia = null;
 	
@@ -29,13 +36,15 @@ public class janelaPronto extends Gaia {
 	public Point mouseDownCompCoords 	= null;
 	public boolean cimaClicado			= false;
 	public JButton botaoPronto			= null;
-	
-	public janelaPronto(Gaia g) {
-		this.Gaia = g;
+
+	public JanelaConfirma() {
+
 	}
 	
-	public void abrir() {
-		this.Gaia.frame.setVisible(false);
+	public void criar(Gaia g) {
+		this.Gaia = g;
+		
+		this.Gaia.Gui.setVisible(false);
 		
 		frame = new JFrame("BRZLauncher - Formação de Partida");
 
@@ -117,9 +126,9 @@ public class janelaPronto extends Gaia {
     	    	int key = e.getModifiers();
     	    	
     	        if(key == MouseEvent.BUTTON1_MASK) {  
-    	        	janelaPronto.cimaClicado 				= true;
-    	        	janelaPronto.mouseDownScreenCoords 		= e.getLocationOnScreen();
-    	        	janelaPronto.mouseDownCompCoords 		= e.getPoint();
+    	        	Gaia.guiJanelaConfirma.cimaClicado 				= true;
+    	        	Gaia.guiJanelaConfirma.mouseDownScreenCoords 		= e.getLocationOnScreen();
+    	        	Gaia.guiJanelaConfirma.mouseDownCompCoords 		= e.getPoint();
     	        } 
     	    }
 
@@ -127,18 +136,18 @@ public class janelaPronto extends Gaia {
     	    	int key = e.getModifiers();
     	    	
     	        if(key == MouseEvent.BUTTON1_MASK) {  
-    	        	janelaPronto.cimaClicado 				= false;
-    	        	janelaPronto.mouseDownScreenCoords 		= null;
-    	        	janelaPronto.mouseDownCompCoords 		= null;
+    	        	Gaia.guiJanelaConfirma.cimaClicado 				= false;
+    	        	Gaia.guiJanelaConfirma.mouseDownScreenCoords 		= null;
+    	        	Gaia.guiJanelaConfirma.mouseDownCompCoords 		= null;
     	        } 
     	    }
     	});
     	
     	janelaProntoCima.addMouseMotionListener(new MouseMotionListener() {
     		public void mouseDragged(MouseEvent e) {
-    			if(janelaPronto.cimaClicado) {
+    			if(Gaia.guiJanelaConfirma.cimaClicado) {
     	    		Point currCoords = e.getLocationOnScreen();
-    	    		janelaPronto.frame.setLocation(janelaPronto.mouseDownScreenCoords.x + (currCoords.x - janelaPronto.mouseDownScreenCoords.x) - janelaPronto.mouseDownCompCoords.x, janelaPronto.mouseDownScreenCoords.y + (currCoords.y - janelaPronto.mouseDownScreenCoords.y) - janelaPronto.mouseDownCompCoords.y);
+    	    		Gaia.guiJanelaConfirma.frame.setLocation(Gaia.guiJanelaConfirma.mouseDownScreenCoords.x + (currCoords.x - Gaia.guiJanelaConfirma.mouseDownScreenCoords.x) - Gaia.guiJanelaConfirma.mouseDownCompCoords.x, Gaia.guiJanelaConfirma.mouseDownScreenCoords.y + (currCoords.y - Gaia.guiJanelaConfirma.mouseDownScreenCoords.y) - Gaia.guiJanelaConfirma.mouseDownCompCoords.y);
     	    	}
     		}
     		
@@ -157,14 +166,14 @@ public class janelaPronto extends Gaia {
 	
 	public void sair() {
 		if(frame.isVisible()) {
-			this.Gaia.frame.setVisible(true);
+			this.Gaia.Gui.setVisible(true);
 			this.Gaia.estaEmFila = false;
 			this.Gaia.estaPronto = false;
 			
-			janelaJogo.jogar.setText("<html><span style='text-align: center; font-size: 12px;'>Jogar!</span></html>");
-			janelaJogo.jogar.setEnabled(true);
-			janelaJogo.filaStatus.setVisible(false);
-			janelaJogo.filaStatus.setText("<html><span style='color: white; font-size: 8px'>enviando requisição...</span></html>");
+			this.Gaia.guiJanelaCliente.jogar.setText("<html><span style='text-align: center; font-size: 12px;'>Jogar!</span></html>");
+			this.Gaia.guiJanelaCliente.jogar.setEnabled(true);
+			this.Gaia.guiJanelaCliente.filaStatus.setVisible(false);
+			this.Gaia.guiJanelaCliente.filaStatus.setText("<html><span style='color: white; font-size: 8px'>enviando requisição...</span></html>");
 			this.Gaia.apiRequest.cmd("a=sairPartida");
 	    	frame.dispose();
 		}
