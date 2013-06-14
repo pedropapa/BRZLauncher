@@ -24,7 +24,7 @@ public class JanelaConfirma extends JFrame {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -7028585119550107847L;
 
 	// Referência da classe principal
 	private Gaia Gaia = null;
@@ -65,9 +65,6 @@ public class JanelaConfirma extends JFrame {
 		
 		// Layout
     	layout = new JPanel(new MigLayout("width 400!,height 550!,insets 0 00 0 0,novisualpadding,nogrid")) {
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 			protected void paintComponent(Graphics g) {
     		    super.paintComponent(g);

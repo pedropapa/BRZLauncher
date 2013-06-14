@@ -39,7 +39,7 @@ public class JanelaLogin extends JFrame {
 	// Variáveis dos elementos da interface
 	public JButton 			inputEnviar 		= null;
 	public JTextField 		inputLogin 			= null;
-	private JPasswordField 	inputSenha 			= null;
+	public JPasswordField 	inputSenha 			= null;
 	private boolean verificarDoRegistro			= false;
 	public String login							= null;
 	public String senha							= null;
@@ -130,7 +130,7 @@ public class JanelaLogin extends JFrame {
     	Gaia.Gui.Core.pack();
     	Gaia.Gui.layout.setVisible(true);
     	Gaia.Gui.Core.setVisible(true);
-
+    	
     	final Gaia.buscarRegistro registro = Gaia.new buscarRegistro();
     	
     	inputEnviar.addActionListener(new ActionListener() {
@@ -139,9 +139,10 @@ public class JanelaLogin extends JFrame {
             		enviarClicado = true;
             		
             		try {
-            			Gaia.apiRequest = new Api(Gaia);
+						Gaia.apiRequest = new Api(Gaia);
 					} catch (HeadlessException | IOException e2) {
-
+						JOptionPane.showMessageDialog(Gaia.Gui, "Para utilizar o BRZLauncher você deve-se conectar com a internet.");
+						System.exit(0);
 					}
             		
 	            	String loginF, senhaMd5;

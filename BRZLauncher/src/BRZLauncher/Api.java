@@ -104,7 +104,7 @@ public class Api extends Gaia {
 	
 	public Exception cmd(String options) {
 		try {
-			writer.println(options+"&c="+this.Gaia.chaveAuth+"&t=cliente");
+			writer.println(this.Gaia.C.encrypt(options+"&c="+this.Gaia.chaveAuth+"&t=cliente"));
 			writer.flush();
 			
 			System.out.println("Comando enviado para o servidor: "+ options+"&c="+this.Gaia.chaveAuth);
@@ -126,6 +126,9 @@ public class Api extends Gaia {
 				
 				switch(resp.funcao) {
 					case "login":
+						this.Gaia.guiJanelaLogin.inputLogin.setEditable(false);
+						this.Gaia.guiJanelaLogin.inputSenha.setEditable(false);
+						
 						switch(resp.CODIGO) {
 						 	case 1: // Login efetuado com sucesso.
 					     		String regUser = WinRegistry.readString(WinRegistry.HKEY_CURRENT_USER, "SOFTWARE\\BRZLauncher", "loginData_user");
@@ -289,7 +292,7 @@ public class Api extends Gaia {
 							    	        		if(msg.getText().length() > 128) {
 							    	        			JOptionPane.showMessageDialog(Gaia.Gui, "Mensagem muito grande, máximo de 128 caracteres.");
 							    	        		} else {
-							    	        			Gaia.apiRequest.cmd("a=chat&msg="+Gaia.encodeURIComponent(msg.getText()));
+							    	        			Gaia.apiRequest.cmd("a=chat&msg="+Gaia.Utils.encodeURIComponent(msg.getText()));
 									    	        	msg.setText("");
 									    	        	Gaia.chatUltimaMsg = new Date().getTime();
 							    	        		}
@@ -388,7 +391,7 @@ public class Api extends Gaia {
 							}
 							
 							this.Gaia.chatUltimaAtul = resp.UNIX_TIMESTAMP;
-							resp.MENSAGEM = StringEscapeUtils.escapeHtml4(this.Gaia.decodeURIComponent(resp.MENSAGEM));
+							resp.MENSAGEM = StringEscapeUtils.escapeHtml4(this.Gaia.Utils.decodeURIComponent(resp.MENSAGEM));
 							
 							JLabel inf = null;
 							switch(resp.TIPO) {
@@ -535,7 +538,7 @@ public class Api extends Gaia {
 					break;
 					case "cancelarPartida":
 						try {
-							this.Gaia.killProcess(this.Gaia.gtaProcNome);
+							this.Gaia.Utils.killProcess(this.Gaia.gtaProcNome);
 						} catch (Exception e1) {
 							//JOptionPane.showMessageDialog(BRZLauncher.Gui, e1.getStackTrace());
 						}
@@ -569,13 +572,13 @@ public class Api extends Gaia {
 					case "abrirServidor":
 						int res = JOptionPane.showConfirmDialog(this.Gaia.Gui, "Não há servidores disponíveis no momento para o modo de jogo escolhido.\nvocê pode abrir o seu próprio servidor clicando em 'Sim' nesta janela de confirmação.\n\nTenha em mente que modificar ou fechar o servidor no meio de uma partida resulta em punição, podendo levar até o banimento de sua conta.", "Abrir novo servidor", JOptionPane.YES_NO_OPTION);
 			        	if(res == JOptionPane.YES_OPTION) {
-			        		new Thread(new Gaia.serverSAMPSocket(this.Gaia)).start();
+			        		new Thread(new SampServerListener(this.Gaia)).start();
 			        		cmd("a=testarServidorSAMP&porta="+ this.Gaia.serverPort);
 			        	}
 					break;
 					case "testarServidorSAMPSucesso":
 						System.out.println("Abrindo servidor...");
-						new Thread(new Gaia.inicializarServidor(this.Gaia)).start();
+						new Thread(new InicializarServidor(this.Gaia)).start();
 					break;
 					case "testarServidorSAMPFalha":
 						System.out.println("A porta "+this.Gaia.serverPort+" não está aberta no roteador.");
@@ -625,13 +628,13 @@ public class Api extends Gaia {
 			try {
 				Thread.sleep(5000);
 				
-				String processos = this.Gaia.isProcessRunning(this.Gaia.gtaProcNome);
+				String processos = this.Gaia.Utils.isProcessRunning(this.Gaia.gtaProcNome);
 				Matcher m = (Pattern.compile("exe.*?(\\d+)")).matcher(processos);
 
 				if(m.find()) {
 					Gaia.gtaPid = new Integer(m.group(1));
 					
-					while(this.Gaia.isProcessRunning(this.Gaia.gtaProcNome) != null) {
+					while(this.Gaia.Utils.isProcessRunning(this.Gaia.gtaProcNome) != null) {
 						Thread.sleep(1000);
 					}
 				}

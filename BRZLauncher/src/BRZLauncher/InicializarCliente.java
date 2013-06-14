@@ -17,7 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JWindow;
 
-public class Inicializar extends Gaia {
+public class InicializarCliente extends Gaia {
 	// Referência da classe principal
 	private Gaia Gaia = null;
 	
@@ -26,7 +26,7 @@ public class Inicializar extends Gaia {
 	public JWindow janela 			= null;
 	int 	otype 					= 1;
 	
-	public Inicializar(Gaia g) {
+	public InicializarCliente(Gaia g) {
 		this.Gaia = g;
 	}
 	
@@ -87,7 +87,7 @@ public class Inicializar extends Gaia {
 	        	int res = JOptionPane.showConfirmDialog(this.Gaia.Gui, "Há uma atualização disponível para o BRZLauncher.\n\nSua versão: "+this.Gaia.versao+"\nNova versão encontrada: "+resposta+"\n\nDeseja baixá-la agora? para continuar a utilizar o launcher a atualização é necessária.", "Nova atualização encontrada", JOptionPane.YES_NO_OPTION);
 	        	if(res == JOptionPane.YES_OPTION) {
 	        		if(baixarArquivo(decodedPath, this.Gaia.brzLauncherUrl+"?d")) {
-	        			Runtime rt = Runtime.getRuntime() ;
+	        			Runtime rt = Runtime.getRuntime();
 	        			rt.exec(decodedPath);
 	        			System.exit(0);
 	        		} else {

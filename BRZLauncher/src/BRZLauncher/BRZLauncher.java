@@ -3,6 +3,7 @@ package BRZLauncher;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+import BRZLauncher.Gui.Gui;
 import BRZLauncher.Gui.JanelaCliente;
 import BRZLauncher.Gui.JanelaConfirma;
 import BRZLauncher.Gui.JanelaLogin;
@@ -17,13 +18,15 @@ public class BRZLauncher {
     	Gaia g = new Gaia();
     	
     	//g.Api = new apiRequest(g); // É setado na classe loginForm
-    	g.Init 				= new Inicializar(g);
+    	g.Init 				= new InicializarCliente(g);
     	g.guiJanelaCliente 	= new JanelaCliente();
     	g.guiJanelaConfirma = new JanelaConfirma();
     	g.guiJanelaLogin 	= new JanelaLogin();
+    	g.Utils 			= new Utils(g);
+    	g.C 				= g.Utils.new AESencrp();
     	
     	g.init();
     	
-    	g.Gui 				= (g.new Gui(g));
+    	g.Gui 				= new Gui(g);
     }
 }
