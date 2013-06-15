@@ -695,12 +695,9 @@ public class Api extends Gaia {
 				while((resposta = reader.readLine()) != null) {
 	                Gson gson = new Gson();
 	                System.out.println("Comando recebido pelo servidor: "+resposta);
-	                try {
-		                ApiRespVars resp = gson.fromJson(resposta, ApiRespVars.class);
-		                apiResp(resp);
-	                } catch(JsonParseException e) {
-	                	
-	                }
+	                
+	                ApiRespVars resp = gson.fromJson(resposta, ApiRespVars.class);
+	                apiResp(resp);
 				}
 			} catch(Exception e) {
 				JOptionPane.showMessageDialog(this.Gaia.Gui, "A comunicação com o servidor foi perdida.\n\nPara resolver, reinicie o programa. Caso o erro persista, crie um tópico sobre o erro em:\nhttp://samp.brazucas-server.com/forum");
