@@ -112,7 +112,7 @@ public class Api extends Gaia {
 			return null;
 		} catch(Exception e) {
 			if(writer == null) {
-				cmd(options);
+				this.cmd(options);
 			}
 			return e;
 		}
@@ -571,9 +571,10 @@ public class Api extends Gaia {
 					break;
 					case "abrirServidor":
 						int res = JOptionPane.showConfirmDialog(this.Gaia.Gui, "Não há servidores disponíveis no momento para o modo de jogo escolhido.\nvocê pode abrir o seu próprio servidor clicando em 'Sim' nesta janela de confirmação.\n\nTenha em mente que modificar ou fechar o servidor no meio de uma partida resulta em punição, podendo levar até o banimento de sua conta.", "Abrir novo servidor", JOptionPane.YES_NO_OPTION);
-			        	if(res == JOptionPane.YES_OPTION) {
+			        	
+						if(res == JOptionPane.YES_OPTION) {
 			        		new Thread(new SampServerListener(this.Gaia)).start();
-			        		cmd("a=testarServidorSAMP&porta="+ this.Gaia.serverPort);
+			        		this.cmd("a=testarServidorSAMP&porta="+ this.Gaia.serverPort);
 			        	}
 					break;
 					case "testarServidorSAMPSucesso":
