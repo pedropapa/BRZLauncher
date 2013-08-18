@@ -46,20 +46,19 @@ import net.miginfocom.swing.MigLayout;
 import Variaveis.ApiRespVars;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonParseException;
 
 public class Api extends Gaia {
 	// Referência da classe principal
 	private Gaia Gaia = null;
 	
 	// Variáveis
-	public Thread request 										= null;
-	public Socket sock 											= null;
-    public InputStreamReader streamReader 						= null;
-    public BufferedReader reader 								= null;
-    public PrintWriter writer 									= null;
+	public Thread request 											= null;
+	public Socket sock 												= null;
+    public InputStreamReader streamReader 							= null;
+    public BufferedReader reader 									= null;
+    public PrintWriter writer 										= null;
     public HashMap<Integer, HashMap<String, JLabel>> partidaInfo	= new HashMap<Integer, HashMap<String, JLabel>>();
-    public boolean scrollPress									= false;
+    public boolean scrollPress										= false;
 	
 	public Api(Gaia g) throws HeadlessException, IOException {
 		this.Gaia = g;
@@ -123,6 +122,7 @@ public class Api extends Gaia {
 			if(resp.funcao != null) {
 				String prefixo 	= "";
 				String cor		= null;
+				resp.MENSAGEM 	= this.Gaia.Utils.decodeURIComponent(resp.MENSAGEM);
 				
 				switch(resp.funcao) {
 					case "login":
@@ -391,7 +391,7 @@ public class Api extends Gaia {
 							}
 							
 							this.Gaia.chatUltimaAtul = resp.UNIX_TIMESTAMP;
-							resp.MENSAGEM = StringEscapeUtils.escapeHtml4(this.Gaia.Utils.decodeURIComponent(resp.MENSAGEM));
+							resp.MENSAGEM = this.Gaia.Utils.decodeURIComponent(StringEscapeUtils.escapeHtml4(resp.MENSAGEM));
 							
 							JLabel inf = null;
 							switch(resp.TIPO) {
@@ -552,7 +552,7 @@ public class Api extends Gaia {
 						partidaInfo.get(resp.partidaid).get(resp.NICK).setText("<html><span style='color: green; font-size: 12px; padding-left: 40px;'>Pronto!</span></html>");
 					break;
 					case "entrarServer":
-						String serverIP 	= resp.IP;
+						String serverIP 	= this.Gaia.Utils.decodeURIComponent(resp.IP);
 						String serverSenha 	= resp.SENHA;
 						
 						this.Gaia.Gui.setVisible(true);
@@ -700,6 +700,9 @@ public class Api extends Gaia {
 	                ApiRespVars resp = gson.fromJson(resposta, ApiRespVars.class);
 	                apiResp(resp);
 				}
+				
+				JOptionPane.showMessageDialog(this.Gaia.Gui, "A comunicação com o servidor foi perdida.\n\nPara resolver, reinicie o programa. Caso o erro persista, crie um tópico sobre o erro em:\nhttp://samp.brazucas-server.com/forum");
+				this.Gaia.deslogar();
 			} catch(Exception e) {
 				JOptionPane.showMessageDialog(this.Gaia.Gui, "A comunicação com o servidor foi perdida.\n\nPara resolver, reinicie o programa. Caso o erro persista, crie um tópico sobre o erro em:\nhttp://samp.brazucas-server.com/forum");
 				this.Gaia.deslogar();
